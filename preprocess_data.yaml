@@ -1,0 +1,6 @@
+name: "preprocess-data"
+code: "./"
+args:
+  - "/srv/conda/envs/notebook/bin/python"
+  - "preprocess.py"
+image: "mcr.microsoft.com/planetary-computer/python:latest"

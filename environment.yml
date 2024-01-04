@@ -1,0 +1,39 @@
+name: weather_forecast
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python==3.10
+  - xarray
+  - zarr
+  - rasterio
+  - rioxarray
+  - fsspec
+  - matplotlib
+  - pytorch
+  - torchvision
+  - pytorch-cuda==12.1
+  - cartopy
+  - dask
+  - datasets
+  - gcsfs
+  - cartopy
+  - pip
+  - gdal
+  - pip:
+      - adlfs
+      - cftime
+      - einops
+      - h5netcdf
+      - kbatch
+      - lightning
+      - lightning-utilities
+      - planetary-computer
+      - pystac
+      - pystac-client
+      - python-dotenv
+      - pytorch-lightning
+      - tensorboard
+      - tqdm
