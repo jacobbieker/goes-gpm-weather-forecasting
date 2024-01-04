@@ -124,14 +124,15 @@ All models were trained with the default settings in ```run.py```.
 
 Here are a few tables of the best results for each combination of inputs and outputs.
 
-For the models forecasting the next 6 hours of ERA5, the GOES+IMERG+Fourier model is still training at the moment:
+For the models forecasting the next 6 hours of ERA5:
 
 ------------------------------------------------------
-| Model | Overall RMSE | Temp RMSE | U RMSE | V RMSE |
+| Model Input | Overall RMSE | Temp RMSE | U RMSE | V RMSE |
 |-------|--------------|-----------|--------|--------|
 | IMERG | 0.0820 | 0.0715 | 0.0806 | 0.0720 |
 | GOES | 0.0791 | 0.0686 | 0.0765 | 0.0693 |
 | GOES+IMERG | 0.0869 | 0.0908 | 0.0836 | 0.0735 |
+| GOES+IMERG+Fourier | 0.0929 | 0.1041 | 0.0853 | 0.0735 |
 | ERA5 | 0.0543 | 0.0242 | 0.0535 | 0.0622 |
 | ERA5 Forecast | 0.1142 | 0.1493 | 0.1063 | 0.0937 |
 ------------------------------------------------------
@@ -142,6 +143,7 @@ For the models forecasting the next 6 hours of ERA5, the GOES+IMERG+Fourier mode
 | IMERG | 0.0820 | 0.0830 | 0.0810 | 0.0808 | 0.0800 | 0.0809 | 0.0806 | 0.0807 | 
 | GOES | 0.0791 | 0.0795 | 0.0774 | 0.0774 | 0.0776 | 0.0781 | 0.0778 | 0.0785 | 
 | GOES+IMERG | 0.0869 | 0.0868 | 0.0868 | 0.0868 | 0.0868 | 0.0869 | 0.0869 | 0.0869 | 
+| GOES+IMERG+Fourier | 0.0929 | 0.0929 | 0.0928 | 0.0928 | 0.0928 | 0.0928 | 0.0928 | 0.0929 | 
 | ERA5 | 0.0543 | 0.0545 | 0.0542 | 0.0538 | 0.0538 | 0.0539 | 0.0537 | 0.0534 | 
 | ERA5 Forecast | 0.1142 | 0.1141 | N/A | N/A | N/A | N/A | N/A |  0.1142 |
 ------------------------------------------------------
