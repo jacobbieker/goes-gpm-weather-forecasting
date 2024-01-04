@@ -1,7 +1,7 @@
 # Forecasting ERA5 from Satellite Imagery and GPM data
 
 This project looks at using GOES-16/17/18 imagery and GPM precipication data
-to forecast the next 6 hours of ERA5 surface temperature and wind component reanalysis data, from WeatherBench 2. The
+to forecast the next 6-42 hours of ERA5 surface temperature and wind component reanalysis data, from WeatherBench 2. The
 forecasts are compared to the ERA5 model forecasts overall and for the 0th hour and 6th hour timestep, as those
 are the only timesteps that are available through the WeatherBench 2 dataset, and makes for simpler comparison to the other
 WeatherBench models.
@@ -29,7 +29,7 @@ The data can be streamed in from the cloud fairly easily, but to make it easier 
 
 To recreate that preprocessing, the following steps should be followed:
 
-1. Your Planetary Computer API key should be set as an environment variable `PC_SDK_SUBSCRIPTION_KEY`, either through the `.env` file or directly.
+1. Your Planetary Computer API key should be set as an environment variable `PC_SDK_SUBSCRIPTION_KEY`.
 2. Run the following command: 
 3. 
 ```bash
@@ -97,14 +97,14 @@ New ERA5 reanalysis is available with a lag of 5 days.
 
 ## Approach
 
-The approach taken is to use the GOES-16/17/18 imagery and GPM data to forecast the next 6 hours of ERA5 surface temperature and wind component reanalysis data with a transformer architecture, specifically a vision transformer.
+The approach taken is to use the GOES-16/17/18 imagery and GPM data to forecast the next 6-42 hours of ERA5 surface temperature and wind component reanalysis data with a transformer architecture, specifically a vision transformer.
 The temperature and u/v component of the wind were chosen as they are fairly important variables for wind and solar generation, and there are a lot of observations of those variables, meaning the ERA5 reanalysis should be highly accurate 
 for those variables compared to others, such as precipitation. The transformer architecture was chosen as it has had good results in other tasks and the attention mechanism should allow it to learn better what parts of the input images to focus on.
 
 The forecast target is a random 16x16 ERA5 reanalysis target that falls within the GOES-16/17/18 imagery field of view. The inputs include
 the last 4 images from GOES around the area, taken as a 224x224 patch of GOES imagery, covering up to the last hour of imagery and 448kmx448km area.
 Optionally, GPM precipitation data was also included, including the last 4 frames (2 hours) of data, and covering a large area of 22.4 degrees around the central point. 
-Additionally, a spatio-temporal embedding was included as an input, which is based on Fourier features computed on the time of day, day of year, and latitude and longitude of the central target point.
+Additionally, a spatio-temporal embedding was optionally included as an input, which is based on Fourier features computed on the time of day, day of year, and latitude and longitude of the central target point.
 
 For a baseline, the ERA5 forecast model was used. The forecast data only covers 2020, and has two model runs a day, at midnight and noon UTC, with 6 hour timesteps.
 This means that the ERA5 forecast model is only available for every 6th hour timesteps, and so the model was only evaluated on those timesteps.
@@ -122,9 +122,9 @@ All models were trained with the default settings in ```run.py```.
 
 ## Results
 
-Here are a few tables of the best results for each combination of inputs and outputs. 
+Here are a few tables of the best results for each combination of inputs and outputs.
 
-For the models forecasting the next 6 hours of ERA5:
+For the models forecasting the next 6 hours of ERA5, the GOES+IMERG+Fourier model is still training at the moment:
 
 ------------------------------------------------------
 | Model | Overall RMSE | Temp RMSE | U RMSE | V RMSE |
@@ -177,7 +177,7 @@ For the long lead times (6-42 hours) combining the GOES and IMERG GPM data provi
 although does worse than either individual input for the 0-6 hour forecasts. GOES imagery alone does better than IMERG GPM data alone on forecasting
 temperature at the surface, which makes sense as GOES is directly sensing the radiation coming from Earth, while IMERG is only looking at precipitation. On the other
 hand, IMERG does better than GOES alone for the wind components on the 6-42 hour horizons, which is probably partly because the IMERG data covers a larger physical area in each example than the GOES imagery
-and so can see where the precipication is moving further away from the target point, and so can estimate the wind better further into the future. At the shorter lead times, GOES also beats IMERG for wind components,
+and so can see where the precipitation is moving further away from the target point, and so can estimate the wind better further into the future. At the shorter lead times, GOES also beats IMERG for wind components,
 which might be because of the higher resolution of the GOES imagery, and so the model can see the at a higher resolution for the shorter lead times.
 As expected, the model trained with ERA5 reanalysis data performs the best, handily beating
 any models just using observations, and the ERA5 forecast model as well. 
